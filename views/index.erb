@@ -1,0 +1,56 @@
+<div class="container" id="main-container">
+  <div class="alert alert-warning d-flex align-items-center hidden" role="alert" id="alert-not-found">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+    <div>
+      Реч није нађена!
+    </div>
+  </div>
+
+  <div id="field" class="container" style="width:450px; height:500px">
+  <% (1..6).each do |row| %>
+    <div class="row srble-row h1">
+      <% (1..5).each do |letter| %>
+        <div class="col">
+          <div class="letter badge bg-light text-dark w-100"></div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  </div>
+
+  <div id="keyboard" class="h1">
+    <% @keyboard_rows.each_with_index do |keyboard_row, i| %>
+    <div id="keyrow_<%= i %>">
+      <% keyboard_row.each do |char| %>
+        <button class="btn btn-light btn-lg" data-letter="<%= char %>">
+          <%= char %>
+        </button>
+      <% end %>
+      <% if i == 2 %>
+        <button class="btn btn-light btn-lg" data-letter="Backspace">
+          &#9003;
+        </button>
+        <button class="btn btn-light btn-lg" data-letter="Enter">
+          Enter
+        </button>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+var currentRowIndex = 0;
+var currentLetter = 0;
+var currentWord = "";
+
+const allLetters = "<%= @keyboard_rows.map(&:join).join %>";
+
+$("#keyboard button").click(function (event) {
+  const char = $(this).attr("data-letter");
+  inputChar(char);
+});
+$(document).keydown(function (event) {
+  inputChar(event.key.toUpperCase());
+});
+</script>

@@ -1,17 +1,24 @@
-
 const currentRowContainer = function () {
   return $($(".srble-row")[currentRowIndex]);
 };
 
+const letterDivs = function() {
+  return currentRowContainer().find("div.letter");
+};
+
 const letterInput = function () {
-  return $(currentRowContainer().find("div.letter")[currentLetter]);
+  return $(letterDivs()[currentLetter]);
+};
+
+const setEnterDisabledState = function () {
+  $("#btn-enter").prop("disabled", getCurrentWord().length != 5);
 };
 
 const inputChar = function (char) {
   if (char.toUpperCase() == "ENTER") {
     return sendWord();
   }
-  if (char == "BACKSPACE") {
+  if (char.toUpperCase() == "BACKSPACE") {
     if (letterInput().text() == "") {
       if (currentLetter > 0) {
         currentLetter--;
@@ -27,16 +34,20 @@ const inputChar = function (char) {
       currentLetter++;
     }
   }
+  setEnterDisabledState();
 };
 
-const sendWord = function () {
-  const word = currentRowContainer()
-    .find("div.letter")
+const getCurrentWord = function () {
+  return letterDivs()
     .map(function (i) {
       return $(this).text();
     })
     .get()
     .join("");
+};
+
+const sendWord = function () {
+  const word = getCurrentWord();
   console.log(word);
   $.post("/word", { q: word }, function (response) {
     processResponse(response);
@@ -64,7 +75,7 @@ const getBadgeClass = function (code) {
 
 const processResponse = function (response) {
   console.log(response);
-  const inputs = currentRowContainer().find("div.letter");
+  const inputs = letterDivs();
 
   response.forEach(function (letterResponse, i) {
     const input = inputs[i];
@@ -77,6 +88,7 @@ const processResponse = function (response) {
   });
   currentRowIndex++;
   currentLetter = 0;
+  setEnterDisabledState();
 };
 
 const acknowledgeLetterResponse = function (letterResponse) {
@@ -98,4 +110,3 @@ const acknowledgeLetterResponse = function (letterResponse) {
     }
   }
 };
-

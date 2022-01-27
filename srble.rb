@@ -1,8 +1,10 @@
+# encoding: utf-8
+
 require 'sinatra'
 require 'set'
 
-ALL_WORDS = Set.new(IO.readlines("words.txt", chomp: true))
-DAILY_WORDS = IO.readlines("daily.txt", chomp: true)
+ALL_WORDS = Set.new(IO.readlines("words.txt", chomp: true, encoding: "UTF-8"))
+DAILY_WORDS = IO.readlines("daily.txt", chomp: true, encoding: "UTF-8")
 KEYBOARD_ROWS = [
   %w[Љ Њ Е Р Т З У И О П Ш Ђ],
   %w[А С Д Ф Г Х Ј К Л Ч Ћ],

@@ -22,15 +22,15 @@
   <% @keyboard_rows.each_with_index do |keyboard_row, i| %>
   <div id="keyrow_<%= i %>">
     <% keyboard_row.each do |char| %>
-      <button class="btn btn-light btn-lg" data-letter="<%= char %>">
-        <%= char %>
+      <button class="btn btn-light" data-letter="<%= char %>">
+        <b><%= char %></b>
       </button>
     <% end %>
     <% if i == 2 %>
-      <button class="btn btn-light btn-lg" data-letter="Backspace">
+      <button class="btn btn-light" data-letter="Backspace">
         &#9003;
       </button>
-      <button class="btn btn-light btn-lg" data-letter="Enter" id="btn-enter" disabled>
+      <button class="btn btn-light" data-letter="Enter" id="btn-enter" disabled>
         Enter
       </button>
     <% end %>
